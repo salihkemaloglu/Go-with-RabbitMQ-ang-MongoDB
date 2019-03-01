@@ -2,8 +2,9 @@ package main
 
 import (
 	"log"
-
 	"github.com/streadway/amqp"
+	repo "github.com/salihkemaloglu/DemQC-beta-001/repository"
+	db "github.com/salihkemaloglu/DemQC-beta-001/mongodb"
 )
 
 func failOnError(err error, msg string) {
@@ -45,11 +46,15 @@ func main() {
 	forever := make(chan bool)
 
 	go func() {
-		for d := range msgs {
+		for d := range msgs {	
+			data := db.File{Name:"jj"}
+			var op repo.FileRepository =data
+			var items, err = op.Insert()
+			log.Printf("Received a message: %s", items)
+			log.Printf("Received a message: %s", err)
 			log.Printf("Received a message: %s", d.Body)
 		}
 	}()
-
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
 }
