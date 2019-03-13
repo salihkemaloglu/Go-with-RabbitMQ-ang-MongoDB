@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"fmt"
 	"github.com/streadway/amqp"
 	repo "github.com/salihkemaloglu/DemQC-beta-001/repository"
 	db "github.com/salihkemaloglu/DemQC-beta-001/mongodb"
@@ -17,7 +18,8 @@ func main() {
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
-
+	fmt.Println("Mongodb Service Started")
+	db.LoadConfiguration()
 	ch, err := conn.Channel()
 	failOnError(err, "Failed to open a channel")
 	defer ch.Close()
@@ -49,8 +51,7 @@ func main() {
 		for d := range msgs {	
 			data := db.File{Name:"jj"}
 			var op repo.FileRepository =data
-			var items, err = op.Insert()
-			log.Printf("Received a message: %s", items)
+			var  err = op.Insert()
 			log.Printf("Received a message: %s", err)
 			log.Printf("Received a message: %s", d.Body)
 		}
