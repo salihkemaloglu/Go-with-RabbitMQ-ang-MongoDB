@@ -4,8 +4,8 @@ import (
 	"log"
 	"fmt"
 	"github.com/streadway/amqp"
-	repo "github.com/salihkemaloglu/DemQC-beta-001/repository"
-	db "github.com/salihkemaloglu/DemQC-beta-001/mongodb"
+	repo "github.com/salihkemaloglu/gignox-qc-beta-001/repository"
+	db "github.com/salihkemaloglu/gignox-qc-beta-001/mongodb"
 )
 
 func failOnError(err error, msg string) {
